@@ -19,14 +19,17 @@ jobs:
       - name: checkout
         # 使用的 actions/checkout 複製程式碼
         uses: actions/checkout@v3
-      # 步驟二：編譯
+      # 步驟二：安裝 pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+      # 步驟三：編譯
       - name: Install and Build
         run: |
           pnpm install
           pnpm run build
         env:
           VITE_API: ${{ secrets.VITE_API }}
-      # 步驟三：部署
+      # 步驟四：部署
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
