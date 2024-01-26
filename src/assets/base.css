@@ -1,0 +1,30 @@
+:root {
+  --primary-color: rgb(13, 17, 23);
+  --text-color: rgb(201, 209, 217);
+}
+
+input[type="text"] {
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  outline: none;
+  padding: 5px 12px;
+  width: 100%;
+  
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  
+  line-height: 20px;
+  font-size: 1rem;
+  color: var(--text-color);
+
+  caret-color: var(--texr-color);
+
+  &::placeholder {
+    font-size: 0.9em;
+  }
+
+  &:focus {
+    border-width: 2px;
+    border-color: #fa0;
+  }
+}
