@@ -22,6 +22,8 @@ jobs:
       # 步驟二：安裝 pnpm
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
+        with:
+          version: 8.8.0
       # 步驟三：編譯
       - name: Install and Build
         run: |
