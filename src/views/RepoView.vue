@@ -87,30 +87,102 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <main>
-    <section class="search-area">
-      <div class="wrapper">
+  <main class="container">
+    <div class="wrapper">
+      <h1 class="title">GitHub Repos</h1>
+      <section class="section-area search-area">
+        <label class="user-label">Username</label>
         <input
+          class="user-input"
           type="text"
           placeholder="Input a GitHub username"
           v-model="username"
           @input="handleSearch"
         />
-      </div>
-    </section>
-    <section class="repos-area">
-      <ul
-        style="height: 300px; overflow: scroll"
-        @scroll="handleScroll($event)"
-      >
-        <li
-          v-for="(repo, index) in repos"
-          :key="index"
-          style="padding: 20px; border: 1px solid #000"
-        >
-          {{ repo.name }}
-        </li>
-      </ul>
-    </section>
+      </section>
+      <section class="section-area repo-area" @scroll="handleScroll($event)">
+        <ul class="repo-list">
+          <li class="repo-item" v-for="(repo, index) in repos" :key="index">
+            {{ repo.name }}
+          </li>
+        </ul>
+      </section>
+    </div>
   </main>
 </template>
+
+<style scoped>
+.container {
+  --space: 30px;
+
+  display: flex;
+  justify-content: center;
+  height: 100svh;
+
+  background-color: var(--primary-color);
+  color: var(--text-color);
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    padding: var(--space) 0;
+    height: 100%;
+    max-width: 960px;
+    width: 60%;
+  }
+}
+
+.title {
+  flex-grow: 0;
+  text-align: center;
+}
+
+.search-area {
+  .user-label {
+    font-size: 1.2rem;
+  }
+  .user-input {
+    margin-top: 10px;
+    letter-spacing: 1px;
+  }
+}
+
+.repo-area {
+  flex-grow: 1;
+  box-sizing: border-box;
+  margin-top: var(--space);
+  overflow-y: scroll;
+  height: 100%;
+
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+}
+
+.repo-item {
+  padding: 50px 0;
+  border-top: 1px solid var(--text-color);
+
+  &:last-child {
+    border-bottom: 1px solid var(--text-color);
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .container {
+    .wrapper {
+      width: 80%;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    --space: 20px;
+    .wrapper {
+      width: 90%;
+    }
+  }
+}
+</style>
