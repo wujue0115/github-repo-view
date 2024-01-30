@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue';
-
 const username = ref('antfu');
 const repos = ref<Record<string, any>[]>([]);
 const queryParams = ref({ per_page: 10, page: 1 });
@@ -81,8 +79,9 @@ const throttleSearch = throttle(searchMoreRepos, 500);
 
 const handleScroll = throttleSearch;
 
-onBeforeMount(() => {
-  searchRepos(queryParams.value);
+onBeforeMount(async () => {
+  await searchRepos(queryParams.value);
+  console.log(repos.value);
 });
 </script>
 
@@ -102,9 +101,11 @@ onBeforeMount(() => {
       </section>
       <section class="section-area repo-area" @scroll="handleScroll($event)">
         <ul class="repo-list">
-          <li class="repo-item" v-for="(repo, index) in repos" :key="index">
-            {{ repo.name }}
-          </li>
+          <RepoCard
+            v-for="(repo, index) in repos"
+            :key="index"
+            :repo="repo"
+          ></RepoCard>
         </ul>
       </section>
     </div>
@@ -153,6 +154,7 @@ onBeforeMount(() => {
   flex-grow: 1;
   box-sizing: border-box;
   margin-top: var(--space);
+  padding-left: 8px;
   overflow-y: scroll;
   height: 100%;
 
