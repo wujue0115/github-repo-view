@@ -20,7 +20,10 @@ export default defineConfig({
       ],
       imports: ['vue', 'vue-router'],
       dirs: ['./composables', './stores'],
-      dts: './auto-imports.d.ts',
+      dts: true,
+      eslintrc: {
+        enabled: true, // <-- this
+      },
     }),
   ],
   resolve: {
