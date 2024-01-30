@@ -81,7 +81,6 @@ const handleScroll = throttleSearch;
 
 onBeforeMount(async () => {
   await searchRepos(queryParams.value);
-  console.log(repos.value);
 });
 </script>
 
