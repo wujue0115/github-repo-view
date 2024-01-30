@@ -46,7 +46,6 @@ button {
       background-color: rgba(0, 0, 0, 0.2);
       transition: all 0.2s;
       filter: brightness(100%);
-      //opacity: 0.3;
       -webkit-transition: all 0.2s;
       -moz-transition: all 0.2s;
       -ms-transition: all 0.2s;
