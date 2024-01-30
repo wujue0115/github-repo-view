@@ -19,7 +19,7 @@ export default defineConfig({
         /\.md$/, // .md
       ],
       imports: ['vue', 'vue-router'],
-      dirs: ['./composables', './stores'],
+      dirs: ['./composables/**', './stores/**'],
       dts: true,
       eslintrc: {
         enabled: true, // <-- this
