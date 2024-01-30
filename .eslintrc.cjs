@@ -32,7 +32,10 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.ts'],
+        extensions: ['.ts', '.vue'],
+      },
+      alias: {
+        map: [['@', './src']],
       },
     },
   },
