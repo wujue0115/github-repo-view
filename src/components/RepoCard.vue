@@ -82,4 +82,8 @@ const { repo } = toRefs(props);
   width: 18px;
   height: 18px;
 }
+
+.repo-description {
+  margin-top: 3px;
+}
 </style>

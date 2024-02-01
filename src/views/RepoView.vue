@@ -162,7 +162,7 @@ onBeforeMount(async () => {
   flex-grow: 1;
   box-sizing: border-box;
   margin-top: var(--space);
-  padding-left: 8px;
+  padding-left: 5px;
   overflow-y: scroll;
   height: 100%;
 
