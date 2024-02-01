@@ -18,8 +18,8 @@ export default defineConfig({
         /\.vue\?vue/, // .vue
         /\.md$/, // .md
       ],
-      imports: ['vue', 'vue-router'],
-      dirs: ['./composables/**', './stores/**'],
+      imports: ['vue', 'vue-router', 'pinia'],
+      dirs: ['./src/composables/**', './src/stores/**'],
       dts: true,
       eslintrc: {
         enabled: true, // <-- this

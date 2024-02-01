@@ -29,6 +29,10 @@ module.exports = {
         ignorePattern: 'd="([\\s\\S]*?)"',
       },
     ],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
+    ],
   },
   settings: {
     'import/resolver': {
@@ -39,5 +43,8 @@ module.exports = {
         map: [['@', './src']],
       },
     },
+  },
+  globals: {
+    RequestInit: true,
   },
 };
