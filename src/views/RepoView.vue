@@ -1,86 +1,95 @@
 <script setup lang="ts">
+const { debounce, throttle } = useUtils();
+const { getUserRepos, updateRepos, extendRepos } = useRepoStore();
+
+const { repos } = storeToRefs(useRepoStore());
+
 const username = ref('antfu');
-const repos = ref<Record<string, any>[]>([]);
-const queryParams = ref({ per_page: 10, page: 1 });
 
-const debounce = (callback: Function, delay: number) => {
-  let timer: ReturnType<typeof setTimeout>;
-  return (...args: any) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => callback(...args), delay);
-  };
+type TQuery = {
+  per_page: number;
+  page: number;
 };
+const query = ref<TQuery>({ per_page: 10, page: 1 });
 
-const throttle = (callback: Function, delay: number) => {
-  let timer: ReturnType<typeof setTimeout> | null;
-
-  return (...args: any) => {
-    if (timer) return;
-
-    timer = setTimeout(() => {
-      callback(...args);
-      timer = null;
-    }, delay);
-  };
-};
-
-const getQueryString = (query: Record<string, any>) => {
-  const queryString = Object.keys(query)
-    .map((key) => `${key}=${query[key]}`)
-    .join('&');
-  return queryString;
-};
-
-const requestRepos = async (
-  query: Record<string, any> = { per_page: 10, page: 1 },
-) => {
-  const queryString = getQueryString(query);
-  const url = `https://api.github.com/users/${username.value}/repos`;
-  const fetchUrl = queryString ? `${url}?${queryString}` : url;
-  const response = await fetch(fetchUrl);
-  const data = await response.json();
-  return data;
-};
-
-const validateUsername = () => {
-  if (username.value === '') {
-    alert('Please input a username');
+/**
+ * Validate username
+ * @param _username - username
+ * @returns true if username is not empty otherwise false
+ */
+const validateUsername = (_username: string) => {
+  if (_username === '') {
     return false;
   }
   return true;
 };
 
-const searchRepos = async (query: Record<string, any>) => {
-  if (!validateUsername()) return;
-  const repoData = await requestRepos(query);
-  repos.value = repoData;
+/**
+ * Search repos with username and query
+ * @param _username - github username
+ * @param _query - query object with per_page and page
+ */
+const searchRepos = async (_username: string, _query: TQuery) => {
+  updateRepos([]);
+
+  if (!validateUsername(username.value)) return;
+
+  await getUserRepos(_username, _query);
 };
 
+/**
+ * Debounce search repos
+ */
 const debounceSearch = debounce(searchRepos, 200);
 
+/**
+ * Handle search event
+ */
 const handleSearch = () => {
-  debounceSearch(queryParams.value);
+  debounceSearch(username.value, query.value);
 };
 
+/**
+ * Validate scroll position
+ * @param event - scroll event
+ * @param ratio - scroll ratio
+ * @returns true if scroll position is over ratio otherwise false
+ */
 const validateScroll = (event: Event, ratio: number) => {
   if (!event.target) return false;
   const { scrollTop, clientHeight, scrollHeight } = event.target as Element;
   return (scrollTop + clientHeight) / scrollHeight >= ratio;
 };
 
-const searchMoreRepos = async (event: Event) => {
+/**
+ * Search more repos when scroll position is over 80%
+ * @param event - scroll event
+ * @param _username - github username
+ */
+const searchMoreRepos = async (event: Event, _username: string) => {
   if (!validateScroll(event, 0.8)) return;
-  queryParams.value.page += 1;
-  const data = await requestRepos(queryParams.value);
-  repos.value = [...repos.value, ...data];
+
+  query.value.page += 1;
+
+  await getUserRepos(_username, query.value, true, extendRepos);
 };
 
+/**
+ * Throttle search more repos
+ */
 const throttleSearch = throttle(searchMoreRepos, 500);
 
-const handleScroll = throttleSearch;
+/**
+ * Handle scroll event
+ * @param event - scroll event
+ */
+const handleScroll = (event: Event) => {
+  throttleSearch(event, username.value);
+};
 
 onBeforeMount(async () => {
-  await searchRepos(queryParams.value);
+  // Get repos before mounting
+  await searchRepos(username.value, query.value);
 });
 </script>
 
