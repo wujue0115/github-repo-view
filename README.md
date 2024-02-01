@@ -1,6 +1,6 @@
 # github-repo-view
 
-Show GitHub user's repositories by Vue 3.
+Show GitHub user's repositories by Vue 3. The default user is [antfu](https://github.com/antfu). You can change it in the input box.
 
 ## Contents
 
