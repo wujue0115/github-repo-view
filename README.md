@@ -15,7 +15,7 @@ Show GitHub user's repositories by Vue 3.
 
 ## Demo
 
-[GitHub page](https://wujue0115.github.io/github-repo-view/)
+[GitHub page](https://github-repo-view.wujue.dev/)
 
 ## Recommended IDE Setup
 
