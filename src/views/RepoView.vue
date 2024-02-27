@@ -46,6 +46,7 @@ const debounceSearch = debounce(searchRepos, 200);
  * Handle search event
  */
 const handleSearch = () => {
+  query.value.page = 1;
   debounceSearch(username.value, query.value);
 };
 
